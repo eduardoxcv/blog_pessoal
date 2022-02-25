@@ -1,7 +1,6 @@
 package com.generation.blogpessoal.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -16,9 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
 
 import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.repository.PostagemRepository;
@@ -56,10 +53,9 @@ private PostagemRepository postagemRepository;
 	}
 	
 	@PutMapping
-    public ResponseEntity<Postagem> putPostagem (@RequestBody Postagem postagem) {
-        //com ajuda do prof;
-        return postagemRepository.findById(postagem.getId()) 
-                .map(resposta -> ResponseEntity.status(HttpStatus.OK).body(postagemRepository.save(postagem))) //realiza se resposta n for nulla
+    public ResponseEntity<Postagem> putPostagem(@Valid @RequestBody Postagem postagem){
+        return postagemRepository.findById(postagem.getId())
+                .map(resposta -> ResponseEntity.ok(postagemRepository.save(postagem)))
                 .orElse(ResponseEntity.notFound().build()); //realiza se a resposta for nulla
     
 	/*@PutMapping ("{id}")
@@ -71,15 +67,17 @@ private PostagemRepository postagemRepository;
 	}
 	
 	
-	@DeleteMapping ("/{id}") 
-	@ResponseStatus(value = HttpStatus.NO_CONTENT)
-	public void deletePostagem (@PathVariable Long id) {
-		Optional<Postagem>postagem = postagemRepository.findById(id);
-		if (postagem.isEmpty())
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND);
-		postagemRepository.deleteById(id);
+	 @DeleteMapping("/{id}")
+	    public ResponseEntity<Object> deletePostagem(@PathVariable Long id) {
+	        return postagemRepository.findById(id)
+	                .map(resposta -> {
+	                    postagemRepository.deleteById(id);
+	                return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+	        })
+	                .orElse(ResponseEntity.notFound().build());
 		
 		
-		
-	}
+			
+		}
 }
+
