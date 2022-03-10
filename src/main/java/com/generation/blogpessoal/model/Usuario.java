@@ -38,6 +38,25 @@ public class Usuario {
 	
 	private String foto;
 	
+	// Primeiro método Construtor
+
+		public Usuario(Long id, String nome, String usuario, String senha, String foto) {
+			this.id = id;
+			this.nome = nome;
+			this.usuario = usuario;
+			this.senha = senha;
+			this.foto = foto;
+		}
+
+		// Segundo método Construtor
+
+		public Usuario() {	}
+
+
+		public long getId() {
+			return this.id;
+		}
+		
 	
 	/** ANOTAÇÃO DO PROF - IMPORTANTE
 	 * CascadeType.REMOVE -> Ele propaga a operação de remoção de um objeto Pai para um 
@@ -54,11 +73,7 @@ public class Usuario {
 	private List<Postagem> postagem;
 
 
-	public Long getId() {
-		return id;
-	}
-
-
+	
 	public void setId(Long id) {
 		this.id = id;
 	}

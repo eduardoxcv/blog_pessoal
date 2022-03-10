@@ -4,6 +4,7 @@ package com.generation.blogpessoal.model;
  * 
  * Ela vai servir de apoio ao login na api 
  */
+
 public class UsuarioLogin {
 
 	private Long id;
@@ -18,7 +19,6 @@ public class UsuarioLogin {
 
 	private String token;
 
-	
 	public Long getId() {
 		return id;
 	}
@@ -39,6 +39,14 @@ public class UsuarioLogin {
 		return usuario;
 	}
 
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
+	}
+
 	public void setUsuario(String usuario) {
 		this.usuario = usuario;
 	}
@@ -57,14 +65,6 @@ public class UsuarioLogin {
 
 	public void setFoto(String foto) {
 		this.foto = foto;
-	}
-
-	public String getToken() {
-		return token;
-	}
-
-	public void setToken(String token) {
-		this.token = token;
-	}
-
+	}	
+	
 }

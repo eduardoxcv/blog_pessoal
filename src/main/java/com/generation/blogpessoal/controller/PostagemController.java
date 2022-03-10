@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.generation.blogpessoal.model.Postagem;
 import com.generation.blogpessoal.repository.PostagemRepository;
+import com.generation.blogpessoal.repository.TemaRepository;
 
 @RestController
 @RequestMapping("/postagens")
@@ -27,6 +28,11 @@ public class PostagemController {
 	
 @Autowired
 private PostagemRepository postagemRepository;
+
+
+@Autowired
+private TemaRepository temaRepository;
+
 
 	@GetMapping // esse metodo nunca dá erro - metodo para visão geral das postagens 
 	public ResponseEntity<List<Postagem>> getAll(){
