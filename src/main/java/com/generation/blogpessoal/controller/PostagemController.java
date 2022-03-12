@@ -52,17 +52,29 @@ private TemaRepository temaRepository;
 	}
 	
 	@PostMapping
-	public ResponseEntity<Postagem> postPostagem(@Valid @RequestBody Postagem postagem){
-		return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem)); // nessa linha estamos salvando algo no banco
-		
+	public ResponseEntity<Postagem> postPostagem (@Valid @RequestBody Postagem postagem){
+
+		if (temaRepository.existsById(postagem.getTema().getId()))
+			return ResponseEntity.status(HttpStatus.CREATED).body(postagemRepository.save(postagem));
+	
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
 				
-	}
+	} // nessa linha estamos salvando algo no banco
 	
 	@PutMapping
-    public ResponseEntity<Postagem> putPostagem(@Valid @RequestBody Postagem postagem){
-        return postagemRepository.findById(postagem.getId())
-                .map(resposta -> ResponseEntity.ok(postagemRepository.save(postagem)))
-                .orElse(ResponseEntity.notFound().build()); //realiza se a resposta for nulla
+	public ResponseEntity<Postagem> putPostagem (@Valid @RequestBody Postagem postagem){
+		
+		if (postagemRepository.existsById(postagem.getId())){
+		
+		if (temaRepository.existsById(postagem.getTema().getId()))
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(postagemRepository.save(postagem));
+		
+		return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+		}			
+		
+		return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        //realiza se a resposta for nula
     
 	/*@PutMapping ("{id}")
 	public ResponseEntity<Postagem> putPostagem(@Valid @RequestBody Postagem postagem, @PathVariable Long id ){
